@@ -45,11 +45,19 @@ MACHINE_ESSENTIAL_EXTRA_RDEPENDS += " \
     lirc \
     tdt-utils \
     tdt-dvb-modules-${MACHINE} \
+    kernel-module-uinput \
     "
 
 MACHINE_EXTRA_RRECOMMENDS = " \
     tdt-gst-plugin-dvbmediasink \
     "
+
+module_autoload_autofs4 = "autofs4"
+
+# This is needed for lirc uinput support.
+# Lirc uinput support is a replacement for evremote2
+module_autoload_uinput = "uinput"
+
 
 #EGLIBCVERSION ?= "2.19"
 OLDEST_KERNEL = "2.6.32"
