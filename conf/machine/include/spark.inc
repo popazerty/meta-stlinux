@@ -44,7 +44,7 @@ MACHINE_ESSENTIAL_EXTRA_RDEPENDS += " \
     stslave-fw \
     lirc \
     tdt-utils \
-    tdt-dvb-modules-${MACHINE} \
+    tdt-dvb-modules \
     kernel-module-uinput \
     "
 
