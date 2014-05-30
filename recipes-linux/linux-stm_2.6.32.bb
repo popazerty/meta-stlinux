@@ -23,6 +23,7 @@ SRCREV = "5cf7f6f209d832a4cf645125598f86213f556fb3"
 
 SRC_URI = "git://github.com/project-magpie/linux-sh4-2.6.32.y.git;protocol=https;branch=spark71xx-0214 \
     file://console.map.c-workaround-for-gcc-4.8.2-build.patch \
+    file://st-coprocessor.h \
     file://defconfig \
 "
 
