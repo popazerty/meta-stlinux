@@ -5,8 +5,11 @@ PACKAGE_ARCH = "${MACHINE_ARCH}"
 LIC_FILES_CHKSUM = "file://COPYING;md5=d7810fab7487fb0aad327b76f1be7cd7"
 KV = "2.6.32"
 
-DEPENDS += " \
+DEPENDS_spark7162 += " \
            stlinux24-sh4-stx7105-fdma-firmware \
+"
+DEPENDS_spark += " \
+           stlinux24-sh4-stx7111-fdma-firmware \
 "
 
 inherit kernel machine_kernel_pr
@@ -18,30 +21,11 @@ STM_PATCH_STR = "0214"
 LINUX_VERSION = "2.6.32.61"
 SRCREV = "5cf7f6f209d832a4cf645125598f86213f556fb3"
 
-SRC_URI = "git://git.stlinux.com/stm/linux-sh4-2.6.32.y.git;protocol=git;branch=stmicro \
-    file://linux-sh4-linuxdvb_stm24_${STM_PATCH_STR}.patch;patch=1 \
-    file://linux-sh4-sound_stm24_${STM_PATCH_STR}.patch;patch=1 \
-    file://linux-sh4-time_stm24_${STM_PATCH_STR}.patch;patch=1 \
-    file://linux-sh4-init_mm_stm24_${STM_PATCH_STR}.patch;patch=1 \
-    file://linux-sh4-copro_stm24_${STM_PATCH_STR}.patch;patch=1 \
-    file://linux-sh4-strcpy_stm24_${STM_PATCH_STR}.patch;patch=1 \
-    file://linux-sh4-ext23_as_ext4_stm24_${STM_PATCH_STR}.patch;patch=1 \
-    file://bpa2_procfs_stm24_${STM_PATCH_STR}.patch;patch=1 \
-    file://linux-ftdi_sio.c_stm24_${STM_PATCH_STR}.patch;patch=1 \
-    file://linux-sh4-lzma-fix_stm24_${STM_PATCH_STR}.patch;patch=1 \
-    file://linux-tune_stm24.patch;patch=1 \
-    file://linux-sh4-mmap_stm24.patch;patch=1 \
-    file://kbuild-generate-mudules-builtin.patch;patch=1 \
-    file://linux-sh4-cpuinfo.patch;patch=1 \
-    file://linux-sh4-${LINUX_VERSION}-${STM_PATCH_STR}_${MACHINE}.config \
-    file://st-coprocessor.h \
+SRC_URI = "git://github.com/project-magpie/linux-sh4-2.6.32.y.git;protocol=https;branch=spark71xx-0214 \
+    file://console.map.c-workaround-for-gcc-4.8.2-build.patch \
+    file://defconfig \
 "
 
-SRC_URI_append_spark7162 = " \
-    file://linux-sh4-stmmac_stm24_${STM_PATCH_STR}.patch;patch=1 \
-    file://linux-sh4-lmb_stm24_${STM_PATCH_STR}.patch;patch=1 \
-    file://linux-sh4-spark7162_setup_stm24_${STM_PATCH_STR}.patch;patch=1 \
-"
 
 S = "${WORKDIR}/git"
 PARALLEL_MAKEINST = ""
@@ -58,7 +42,7 @@ KEEPUIMAGE = "true"
 
 do_configure () {
     rm -f ${S}/.config || true
-    cp ${WORKDIR}/linux-sh4-${LINUX_VERSION}-${STM_PATCH_STR}_${MACHINE}.config ${S}/.config
+    cp ${WORKDIR}/defconfig ${S}/.config
     sed -i "s#^\(CONFIG_EXTRA_FIRMWARE_DIR=\).*#\1\"${STAGING_DIR_HOST}/lib/firmware\"#" .config;
         yes '' | oe_runmake oldconfig
     if test -e scripts/Makefile.fwinst ; then
